@@ -2,3 +2,4 @@
 ansible-promethus/.DS_Store
 ansible-promethus/production/.DS_Store
 ansible-promethus/roles/oms-exporter/files/.DS_Store
+ansible-promethus/roles/prometheus/files/.DS_Store

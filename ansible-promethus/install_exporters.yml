@@ -1,0 +1,20 @@
+---
+
+- name: update exporters
+  hosts: 
+     - host01
+     - host02
+  sudo: true
+  gather_facts: no
+  roles:
+    - roles/node-exporter
+
+- name: update prometheus config
+  hosts: 
+    - host01
+  sudo: true
+  gather_facts: no
+  roles:
+    - roles/prometheus-config
+
+

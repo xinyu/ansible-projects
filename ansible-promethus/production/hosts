@@ -1,0 +1,5 @@
+[host01]
+host01 ansible_ssh_host=192.168.1.21 ansible_ssh_port=22 ansible_ssh_user=vagrant exporter_ip=192.168.1.21 
+
+[host02]
+host02 ansible_ssh_host=192.168.1.22 ansible_ssh_port=22 ansible_ssh_user=vagrant exporter_ip=192.168.1.22

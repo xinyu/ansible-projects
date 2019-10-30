@@ -1,0 +1,51 @@
+---
+- name: Check if node_exporter is running
+  shell: pgrep node_exporter
+  register: checknodeexporterprocess
+  ignore_errors: true
+
+- name: ensure_directory
+  file: >
+    state=directory
+    dest={{ node_exporter.path }}
+    owner=root
+    group=root
+
+- name: Updata node_exporter
+  copy: >
+    src=node_exporter
+    dest={{ node_exporter.path }}/node_exporter
+    owner=root
+    group=root
+    mode=0755
+  notify: Restart node_exporter
+
+- name: Updata comm.sh
+  template: >
+    src=comm.sh.j2
+    dest={{ node_exporter.path }}/comm.sh
+    owner=root
+    group=root
+    mode=0755
+  notify: Restart node_exporter
+
+- name: Updata restart.sh
+  template: >
+    src=restart.sh.j2
+    dest={{ node_exporter.path }}/restart.sh
+    owner=root
+    group=root
+    mode=0755
+  notify: Restart node_exporter
+
+- name: Restart node_exporter
+  command: uptime
+  notify: Restart node_exporter
+  when: checknodeexporterprocess|failed
+
+
+
+
+
+
+

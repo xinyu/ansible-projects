@@ -1,0 +1,6 @@
+hostdesc: promethus_server
+prometheus_server: host01
+oms_collector:
+  - name: node_threads
+    collector: collector.threads
+    check_command: ""

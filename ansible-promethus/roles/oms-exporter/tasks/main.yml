@@ -1,0 +1,60 @@
+---
+- name: Check if oms_exporter is running
+  shell: pgrep oms_exporter
+  register: checkomsexporterprocess
+  ignore_errors: true
+
+- name: ensure_directory
+  file: >
+    state=directory
+    dest={{ oms_exporter.path }}
+    owner=root
+    group=root
+
+- name: Updata oms_exporter
+  copy: >
+    src=oms_exporter
+    dest={{ oms_exporter.path }}/oms_exporter
+    owner=root
+    group=root
+    mode=0755
+  notify: Restart oms_exporter
+
+- name: Update oms_exporter.yaml
+  template: >
+    src=oms_exporter.yaml.j2
+    dest={{ oms_exporter.path }}/oms_exporter.yaml
+    owner=root
+    group=root
+    mode=0644
+  notify: Restart oms_exporter
+
+- name: Updata comm.sh
+  template: >
+    src=comm.sh.j2
+    dest={{ oms_exporter.path }}/comm.sh
+    owner=root
+    group=root
+    mode=0755
+  notify: Restart oms_exporter
+
+- name: Updata restart.sh
+  template: >
+    src=restart.sh.j2
+    dest={{ oms_exporter.path }}/restart.sh
+    owner=root
+    group=root
+    mode=0755
+  notify: Restart oms_exporter
+
+- name: Restart oms_exporter
+  command: uptime
+  notify: Restart oms_exporter
+  when: checkomsexporterprocess|failed
+
+
+
+
+
+
+

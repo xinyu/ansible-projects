@@ -1,0 +1,7 @@
+---
+
+- name: Restart node_exporter
+  command: "{{ node_exporter.path }}/restart.sh"
+  async: 2
+  poll: 0
+  ignore_errors: yes

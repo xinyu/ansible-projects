@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd {{ node_exporter.path }}
+
+{{ node_exporter.path }}/comm.sh restart > {{ node_exporter.path }}/node_exporter.log 2>&1

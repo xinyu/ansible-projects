@@ -1,0 +1,87 @@
+---
+
+- name: ensure_directory
+  file: >
+    state=directory
+    dest={{ prometheus_install_path }}
+    owner=root
+    group=root
+
+- name: Check if console_lib is installed
+  stat: >
+    path={{ prometheus_install_path }}/console_libraries/prom.lib
+  register: checkconsolelib
+
+- name: upload console_lib pkg
+  copy: >
+    src=console_lib.tar.gz
+    dest={{ prometheus_install_path }}/console_lib.tar.gz
+  when: not checkconsolelib.stat.exists
+
+- name: install console_lib
+  shell: >
+    tar zxvf {{ prometheus_install_path }}/console_lib.tar.gz -C {{ prometheus_install_path }}
+  when: not checkconsolelib.stat.exists
+
+- name: Updata prometheus
+  copy: >
+    src=prometheus
+    dest={{ prometheus_install_path }}/prometheus
+    owner=root
+    group=root
+    mode=0755
+  notify: Restart prometheus
+
+- name: Updata promtool
+  copy: >
+    src=promtool
+    dest={{ prometheus_install_path }}/promtool
+    owner=root
+    group=root
+    mode=0755
+
+- name: Update prometheus.yml
+  template: >
+    src=prometheus.yml.j2
+    dest={{ prometheus_install_path }}/prometheus.yml
+    owner=root
+    group=root
+    mode=0644
+  notify: Restart prometheus
+
+- name: ensure_rules_directory
+  file: >
+    state=directory
+    dest={{ prometheus_install_path }}/rules.d
+    owner=root
+    group=root
+
+- name: "Making Prometheus rules file {{ item.name }}"
+  copy:
+    content: "{{ { 'groups': [item] } | to_json | regex_replace('\\[\\[', '{{') | regex_replace('\\]\\]', '}}') | from_json | to_nice_yaml }}"
+    dest: "{{ prometheus_install_path }}/rules.d/{{ item.name }}.rules.yml"
+    owner: root
+    group: root
+    validate: "{{ prometheus_install_path }}/promtool check rules %s"
+  with_items: "{{ prometheus_rules }}"
+  when: prometheus_rules | length > 0
+  notify: Restart prometheus
+
+- name: Updata comm.sh
+  template: >
+    src=comm.sh.j2
+    dest={{ prometheus_install_path }}/comm.sh
+    owner=root
+    group=root
+    mode=0755
+  notify: Restart prometheus
+
+- name: Updata restart.sh
+  template: >
+    src=restart.sh.j2
+    dest={{ prometheus_install_path }}/restart.sh
+    owner=root
+    group=root
+    mode=0755
+  notify: Restart prometheus
+

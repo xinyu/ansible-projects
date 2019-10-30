@@ -1,0 +1,8 @@
+---
+
+- name: Restart prometheus
+  command: "{{ prometheus_install_path }}/restart.sh"
+  async: 2
+  poll: 0
+  ignore_errors: yes
+

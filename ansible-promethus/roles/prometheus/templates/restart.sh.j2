@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd {{ prometheus_install_path }}
+
+{{ prometheus_install_path }}/comm.sh restart > {{ prometheus_install_path }}/prometheus.log 2>&1

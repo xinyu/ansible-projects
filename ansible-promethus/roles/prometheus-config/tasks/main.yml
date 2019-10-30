@@ -1,0 +1,24 @@
+---
+
+- name: ensure_directory
+  file: >
+    state=directory
+    dest={{ prometheus_install_path }}/conf.d
+    owner=root
+    group=root
+
+- name: Configure node_hosts.yml
+  template: >
+    src=node_hosts.conf.j2
+    dest={{ prometheus_install_path }}/conf.d/node_hosts.yml
+    owner=root
+    group=root
+    mode=0644
+
+- name: Configure oms_hosts.yml
+  template: >
+    src=oms_hosts.conf.j2
+    dest={{ prometheus_install_path }}/conf.d/oms_hosts.yml
+    owner=root
+    group=root
+    mode=0644

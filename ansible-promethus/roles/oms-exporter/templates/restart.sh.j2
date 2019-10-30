@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd {{ oms_exporter.path }}
+
+{{ oms_exporter.path }}/comm.sh restart > {{ oms_exporter.path }}/oms_exporter.log 2>&1

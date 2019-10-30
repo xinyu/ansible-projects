@@ -1,0 +1,52 @@
+---
+
+- name: ensure_directory
+  file: >
+    state=directory
+    dest={{ alertmanager.path }}
+    owner=root
+    group=root
+
+- name: Updata alertmanager
+  copy: >
+    src=alertmanager
+    dest={{ alertmanager.path }}/alertmanager
+    owner=root
+    group=root
+    mode=0755
+  notify: Restart alertmanager
+
+- name: Updata amtool
+  copy: >
+    src=amtool
+    dest={{ alertmanager.path }}/amtool
+    owner=root
+    group=root
+    mode=0755
+
+- name: Update alertmanager.yml
+  template: >
+    src=alertmanager.yml.j2
+    dest={{ alertmanager.path }}/alertmanager.yml
+    owner=root
+    group=root
+    mode=0644
+  notify: Restart alertmanager
+
+- name: Updata comm.sh
+  template: >
+    src=comm.sh.j2
+    dest={{ alertmanager.path }}/comm.sh
+    owner=root
+    group=root
+    mode=0755
+  notify: Restart alertmanager
+
+- name: Updata restart.sh
+  template: >
+    src=restart.sh.j2
+    dest={{ alertmanager.path }}/restart.sh
+    owner=root
+    group=root
+    mode=0755
+  notify: Restart alertmanager

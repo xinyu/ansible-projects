@@ -1,0 +1,8 @@
+---
+
+- name: ensure_directory
+  file: >
+    state=directory
+    dest={{ grafana.path }}
+    owner=root
+    group=root

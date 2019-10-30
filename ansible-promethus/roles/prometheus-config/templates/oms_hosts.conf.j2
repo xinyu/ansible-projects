@@ -1,0 +1,7 @@
+{% for host in groups['all'] %}
+- targets:
+    - {{ hostvars[host]['exporter_ip'] }}:{{ oms_exporter.port }}
+  labels:
+    hostname: {{ host }}
+    hostdesc: {{ hostvars[host].hostdesc }}
+{% endfor %}

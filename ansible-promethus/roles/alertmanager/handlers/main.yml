@@ -1,0 +1,7 @@
+---
+
+- name: Restart alertmanager
+  command: "{{ alertmanager.path }}/restart.sh"
+  async: 2
+  poll: 0
+  ignore_errors: yes

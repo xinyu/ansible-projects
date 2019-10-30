@@ -1,0 +1,10 @@
+---
+
+- name: install prometheus
+  hosts: 
+    - host01
+  sudo: true
+  gather_facts: no
+  roles:
+    - roles/prometheus
+    - roles/alertmanager

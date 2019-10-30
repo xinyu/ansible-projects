@@ -1,0 +1,5 @@
+hostdesc: nginx_server_01
+oms_collector:
+  - name: node_threads
+    collector: collector.threads
+    check_command: ""

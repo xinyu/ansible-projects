@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd {{ alertmanager.path }}
+
+{{ alertmanager.path }}/comm.sh restart > {{ alertmanager.path }}/alertmanager.log 2>&1

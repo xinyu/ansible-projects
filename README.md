@@ -4,7 +4,8 @@
 
 ## ansible-promethus
 
-ansible-playbook -i production/hosts install_promethus.yml
-ansible-playbook -i production/hosts install_exporters.yml
+* ansible-playbook -i production/hosts install_promethus.yml
+
+* ansible-playbook -i production/hosts install_exporters.yml
 
  
